@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizMaster</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #111827, #0b0f19);
+      color: #e5e7eb;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 90%;
+      text-align: center;
+      padding: 60px 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #60a5fa;
+      letter-spacing: -1px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 26px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #e5e7eb;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .features {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      border-radius: 14px;
+      text-align: left;
+    }
+
+    .card h3 {
+      color: #93c5fd;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="badge">🚀 Sistema Online</div>
+
+    <h1>QuizMaster</h1>
+    <p>
+      Plataforma de quizzes moderna para aprendizado, desafios e evolução contínua.
+    </p>
+
+    <div class="buttons">
+      <a href="/register" class="btn btn-primary">Criar Conta</a>
+      <a href="/login" class="btn btn-secondary">Fazer Login</a>
+    </div>
+
+    <div class="features">
+      <div class="card">
+        <h3>📚 Aprendizado</h3>
+        <p>Crie e responda quizzes para evoluir suas habilidades.</p>
+      </div>
+
+      <div class="card">
+        <h3>⚡ Performance</h3>
+        <p>Sistema rápido, leve e otimizado com Node.js.</p>
+      </div>
+
+      <div class="card">
+        <h3>🎯 Desafios</h3>
+        <p>Teste seus conhecimentos com desafios progressivos.</p>
+      </div>
+    </div>
+
+    <footer>
+      Desenvolvido com Express + EJS • QuizMaster © 2026
+    </footer>
+
+  </div>
+</body>
+</html>
