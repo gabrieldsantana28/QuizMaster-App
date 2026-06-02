@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed - QuizMaster</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #111827, #0b0f19);
+      color: #e5e7eb;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+    }
+
+    .navbar h2 {
+      color: #60a5fa;
+      font-size: 1.3rem;
+    }
+
+    .navbar a {
+      color: #3b82f6;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .navbar a:hover {
+      background: rgba(59, 130, 246, 0.1);
+      color: #60a5fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #60a5fa;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .quiz-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .quiz-card:hover {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.3);
+      transform: translateY(-5px);
+    }
+
+    .quiz-card h3 {
+      color: #93c5fd;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .quiz-card p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+    }
+
+    .empty-state h2 {
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>🎯 QuizMaster</h2>
+    <div>
+      <% if (user) { %>
+        <span style="color: #cbd5e1; margin-right: 20px;">Bem-vindo, <strong><%= user.username %></strong></span>
+        <a href="/logout">Sair</a>
+      <% } else { %>
+        <a href="/login">Login</a>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>📚 Meus Quizzes</h1>
+
+    <div class="quiz-grid">
+      <div class="quiz-card">
+        <h3>JavaScript Avançado</h3>
+        <p>Teste seus conhecimentos sobre conceitos avançados de JavaScript, closures, async/await e muito mais.</p>
+        <div class="quiz-meta">
+          <span>⭐ 4.8/5</span>
+          <span>👥 234 participantes</span>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <h3>React Fundamentals</h3>
+        <p>Aprenda e teste seus conhecimentos sobre componentes, hooks, state management e lifecycle.</p>
+        <div class="quiz-meta">
+          <span>⭐ 4.9/5</span>
+          <span>👥 512 participantes</span>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <h3>Node.js Express</h3>
+        <p>Domine o desenvolvimento backend com Express, middleware, routing e integração com bancos de dados.</p>
+        <div class="quiz-meta">
+          <span>⭐ 4.7/5</span>
+          <span>👥 189 participantes</span>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <h3>SQL para Iniciantes</h3>
+        <p>Comece sua jornada com SQL, aprenda queries, joins, agregações e otimização de databases.</p>
+        <div class="quiz-meta">
+          <span>⭐ 4.6/5</span>
+          <span>👥 421 participantes</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn">+ Criar Novo Quiz</button>
+  </div>
+</body>
+</html>
