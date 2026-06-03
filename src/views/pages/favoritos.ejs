@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title><%= title %> — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/feed">Explorar</a>
+      <a href="/quiz/criar">+ Criar Quiz</a>
+      <a href="/favoritos" class="active">❤️ Favoritos</a>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+  <div class="page-header"><h1>❤️ Meus Favoritos</h1><p>Quizzes que você salvou para jogar depois</p></div>
+  <% if(favoritos && favoritos.length > 0){ %>
+  <div class="card-grid">
+    <% favoritos.forEach(f=>{ %>
+    <div class="card">
+      <div class="card-title">Quiz #<%= f.quizId %></div>
+      <div class="card-desc">Salvo em: <%= new Date(f.createdAt).toLocaleDateString('pt-BR') %></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <a href="/quiz/<%= f.quizId %>" class="btn btn-primary btn-sm">🎮 Jogar</a>
+        <form method="POST" action="/quiz/<%= f.quizId %>/desfavoritar">
+          <button type="submit" class="btn btn-danger btn-sm">✕ Remover</button>
+        </form>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <div class="empty-state">
+    <h2>Nenhum favorito ainda</h2>
+    <p>Explore os quizzes e clique em ❤️ para favoritar!</p>
+    <a href="/feed" class="btn btn-primary mt-4">Explorar Quizzes</a>
+  </div>
+  <% } %>
+</div>
+</body></html>

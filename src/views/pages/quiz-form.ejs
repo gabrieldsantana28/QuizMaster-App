@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title><%= title %> — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/feed">Explorar</a>
+      <a href="/quiz/criar" class="active">+ Criar Quiz</a>
+      <a href="/favoritos">❤️ Favoritos</a>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <div class="form-card" style="max-width:680px">
+    <h1 class="form-title">✍️ <%= quiz ? 'Editar' : 'Criar' %> Quiz</h1>
+    <p class="form-subtitle">Monte um desafio para a comunidade</p>
+    <% if(typeof errors !== 'undefined' && errors.length){ %>
+      <div class="alert alert-danger"><% errors.forEach(e=>{ %><div>⚠️ <%= e %></div><% }) %></div>
+    <% } %>
+    <form method="POST" action="/quiz/criar">
+      <div class="form-group">
+        <label>Título *</label>
+        <input type="text" name="titulo" placeholder="Ex: JavaScript Avançado" required value="<%= quiz ? quiz.titulo : '' %>"/>
+      </div>
+      <div class="form-group">
+        <label>Descrição</label>
+        <textarea name="descricao" placeholder="Descreva o que será testado neste quiz..."><%= quiz ? quiz.descricao : '' %></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tema *</label>
+          <select name="temaId" required>
+            <option value="">Selecione um tema</option>
+            <% if(typeof temas !== 'undefined'){ temas.forEach(t=>{ %>
+              <option value="<%= t.id %>" <%= (quiz && quiz.temaId == t.id) ? 'selected':'' %>><%= t.icone %> <%= t.nome %></option>
+            <% }) } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Dificuldade</label>
+          <select name="dificuldade">
+            <option value="facil" <%= (quiz && quiz.dificuldade==='facil') ? 'selected':'' %>>🟢 Fácil</option>
+            <option value="medio" <%= (!quiz || quiz.dificuldade==='medio') ? 'selected':'' %>>🟡 Médio</option>
+            <option value="dificil" <%= (quiz && quiz.dificuldade==='dificil') ? 'selected':'' %>>🔴 Difícil</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button type="submit" class="btn btn-primary">💾 Salvar Quiz</button>
+        <a href="/feed" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>

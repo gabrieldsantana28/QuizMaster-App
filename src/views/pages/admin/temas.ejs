@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><title><%= title %></title><link rel="stylesheet" href="/stylesheets/style.css"></head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/admin">Dashboard</a><a href="/admin/usuarios">Usuários</a>
+      <a href="/admin/quizzes">Quizzes</a><a href="/admin/temas" class="active">Temas</a><a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+  <div class="page-header"><h1>🏷️ Gerenciar Temas</h1></div>
+  <div class="card mb-4" style="max-width:560px">
+    <h2 class="section-title">+ Novo Tema</h2>
+    <form method="POST" action="/admin/temas">
+      <div class="form-row">
+        <div class="form-group"><label>Nome *</label><input type="text" name="nome" required placeholder="Ex: Programação"/></div>
+        <div class="form-group"><label>Ícone</label><input type="text" name="icone" placeholder="Ex: 💻" maxlength="4"/></div>
+      </div>
+      <div class="form-group"><label>Descrição</label><input type="text" name="descricao" placeholder="Descreva o tema"/></div>
+      <button type="submit" class="btn btn-primary btn-sm">Criar Tema</button>
+    </form>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Ícone</th><th>Nome</th><th>Descrição</th></tr></thead>
+      <tbody>
+        <% temas.forEach(t=>{ %>
+        <tr><td style="font-size:1.4rem"><%= t.icone %></td><td><strong><%= t.nome %></strong></td><td style="color:var(--text-dim)"><%= t.descricao || '—' %></td></tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body></html>

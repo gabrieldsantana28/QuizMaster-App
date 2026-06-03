@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title><%= title %></title><link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/feed">← App</a>
+      <a href="/admin" class="active">Dashboard</a>
+      <a href="/admin/usuarios">Usuários</a>
+      <a href="/admin/quizzes">Quizzes</a>
+      <a href="/admin/temas">Temas</a>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <div class="page-header"><h1>⚙️ Painel Administrativo</h1><p>Visão geral da plataforma</p></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value"><%= stats.totalUsers %></div><div class="stat-label">👥 Usuários Cadastrados</div></div>
+    <div class="stat-card"><div class="stat-value"><%= stats.totalQuizzes %></div><div class="stat-label">📚 Quizzes Ativos</div></div>
+    <div class="stat-card"><div class="stat-value"><%= stats.totalTemas %></div><div class="stat-label">🏷️ Temas</div></div>
+  </div>
+  <div class="section-title">👤 Últimos Cadastros</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>ID</th><th>Usuário</th><th>E-mail</th><th>Cadastrado em</th></tr></thead>
+      <tbody>
+        <% recentUsers.forEach(u=>{ %>
+        <tr><td>#<%= u.id %></td><td><strong><%= u.username %></strong></td><td><%= u.email %></td><td><%= new Date(u.createdAt).toLocaleDateString('pt-BR') %></td></tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:24px">
+    <a href="/admin/usuarios" class="btn btn-secondary">Ver Usuários</a>
+    <a href="/admin/quizzes" class="btn btn-secondary">Gerenciar Quizzes</a>
+    <a href="/admin/temas" class="btn btn-primary">Gerenciar Temas</a>
+  </div>
+</div>
+</body></html>
