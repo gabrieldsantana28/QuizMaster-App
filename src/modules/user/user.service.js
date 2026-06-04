@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { Op } from 'sequelize';
 
 export const register = async (data, UserModel) => {
   const { username, email, password, confirmPassword, fullName = null } = data;
@@ -12,7 +13,7 @@ export const register = async (data, UserModel) => {
   }
 
   const existingUser = await UserModel.findOne({
-    where: { [require('sequelize').Op.or]: [{ username }, { email }] }
+    where: { [Op.or]: [{ username }, { email }] }
   });
 
   if (existingUser) {
@@ -43,7 +44,7 @@ export const register = async (data, UserModel) => {
 export const login = async (loginInput, password, UserModel) => {
   const user = await UserModel.findOne({
     where: {
-      [require('sequelize').Op.or]: [
+      [Op.or]: [
         { email: loginInput },
         { username: loginInput }
       ]
