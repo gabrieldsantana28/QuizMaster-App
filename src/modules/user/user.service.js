@@ -3,6 +3,10 @@ import { Op } from 'sequelize';
 
 export const register = async (data, UserModel) => {
   const { username, email, password, confirmPassword, fullName = null } = data;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    throw new Error('E-mail inválido.');
+  }
 
   if (password !== confirmPassword) {
     throw new Error('As senhas não coincidem.');
@@ -20,9 +24,11 @@ export const register = async (data, UserModel) => {
     throw new Error('Este e-mail ou usuário já está cadastrado.');
   }
 
+  // Hash da senha (RN-001)
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
+  // Cria o usuário
   const newUser = await UserModel.create({
     username,
     email,
@@ -42,6 +48,7 @@ export const register = async (data, UserModel) => {
 };
 
 export const login = async (loginInput, password, UserModel) => {
+  // Busca por email OU username
   const user = await UserModel.findOne({
     where: {
       [Op.or]: [
@@ -69,7 +76,7 @@ export const login = async (loginInput, password, UserModel) => {
     profilePicture: user.profilePicture
   };
 };
-
+// Função auxiliar para buscar perfil
 export const getProfile = async (userId, UserModel) => {
   const user = await UserModel.findByPk(userId, {
     attributes: ['id', 'username', 'email', 'fullName', 'bio', 'profilePicture']
@@ -80,4 +87,19 @@ export const getProfile = async (userId, UserModel) => {
   }
 
   return user;
+};
+
+export const validateEmailExternalAPI = async (email) => {
+  try {
+    const axios = (await import('axios')).default;
+    const apiKey = 'YOUR_FAKE_API_KEY';
+    const response = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${email}`);
+    
+    if (response.data && response.data.deliverability === 'DELIVERABLE') {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    throw new Error('Erro ao comunicar com a API de validação de e-mail');
+  }
 };
