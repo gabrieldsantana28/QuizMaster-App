@@ -1,6 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import * as userService from '../user.service.js';
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
+
+vi.mock('axios');
 
 // ==============================================================
 // SUITE 1: Cadastro de Usuário (register)
@@ -274,5 +277,58 @@ describe('User Service - Perfil (getProfile)', () => {
     await expect(userService.getProfile(999, mockUserModel))
       .rejects
       .toThrow('Usuário não encontrado.');
+  });
+});
+
+// ==============================================================
+// SUITE 4: API de Validação de E-mail
+// ==============================================================
+describe('User Service - API de validação de e-mail', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('deve retornar true quando a API externa responde que o email é válido', async () => {
+    const mockEmail = 'aluno@faculdade.com.br';
+    
+    axios.get.mockResolvedValue({
+      data: {
+        email: mockEmail,
+        deliverability: 'DELIVERABLE',
+        is_valid_format: { value: true }
+      }
+    });
+
+    const result = await userService.validateEmailExternalAPI(mockEmail);
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining(mockEmail));
+    expect(result).toBe(true);
+  });
+
+  it('deve retornar false quando a API externa responde que o email é inválido', async () => {
+    const mockEmail = 'email_falso@dominio_inexistente.com';
+    
+    axios.get.mockResolvedValue({
+      data: {
+        email: mockEmail,
+        deliverability: 'UNDELIVERABLE',
+        is_valid_format: { value: false }
+      }
+    });
+
+    const result = await userService.validateEmailExternalAPI(mockEmail);
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(result).toBe(false);
+  });
+
+  it('deve lançar um erro quando a API externa estiver fora do ar', async () => {
+    const mockEmail = 'teste@teste.com';
+    
+    axios.get.mockRejectedValue(new Error('Network Error'));
+
+    await expect(userService.validateEmailExternalAPI(mockEmail)).rejects.toThrow('Erro ao comunicar com a API de validação de e-mail');
+    expect(axios.get).toHaveBeenCalledTimes(1);
   });
 });

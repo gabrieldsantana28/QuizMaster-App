@@ -1,4 +1,6 @@
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
+import { Op } from 'sequelize';
 
 export const register = async (data, UserModel) => {
   const { username, email, password, confirmPassword, fullName = null } = data;
@@ -12,7 +14,7 @@ export const register = async (data, UserModel) => {
   }
 
   const existingUser = await UserModel.findOne({
-    where: { [require('sequelize').Op.or]: [{ username }, { email }] }
+    where: { [Op.or]: [{ username }, { email }] }
   });
 
   if (existingUser) {
@@ -46,7 +48,7 @@ export const login = async (loginInput, password, UserModel) => {
   // Busca por email OU username
   const user = await UserModel.findOne({
     where: {
-      [require('sequelize').Op.or]: [
+      [Op.or]: [
         { email: loginInput },
         { username: loginInput }
       ]
@@ -82,4 +84,18 @@ export const getProfile = async (userId, UserModel) => {
   }
 
   return user;
+};
+
+export const validateEmailExternalAPI = async (email) => {
+  try {
+    const apiKey = 'YOUR_FAKE_API_KEY';
+    const response = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${email}`);
+    
+    if (response.data && response.data.deliverability === 'DELIVERABLE') {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    throw new Error('Erro ao comunicar com a API de validação de e-mail');
+  }
 };
