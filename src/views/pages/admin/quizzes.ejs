@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><title><%= title %></title><link rel="stylesheet" href="/stylesheets/style.css"></head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/admin">Dashboard</a><a href="/admin/usuarios">Usuários</a>
+      <a href="/admin/quizzes" class="active">Quizzes</a><a href="/admin/temas">Temas</a><a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <div class="page-header"><h1>📚 Gerenciar Quizzes</h1></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>ID</th><th>Título</th><th>Dificuldade</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>
+        <% quizzes.forEach(q=>{ %>
+        <tr>
+          <td>#<%= q.id %></td>
+          <td><strong><%= q.titulo %></strong></td>
+          <td class="dificuldade-<%= q.dificuldade %>"><%= q.dificuldade %></td>
+          <td><span class="badge <%= q.ativo ? 'badge-green':'badge-red' %>"><%= q.ativo ? 'Ativo':'Inativo' %></span></td>
+          <td>
+            <form method="POST" action="/admin/quizzes/<%= q.id %>/toggle" style="display:inline">
+              <button type="submit" class="btn btn-sm <%= q.ativo?'btn-danger':'btn-green' %>"><%= q.ativo ? 'Desativar':'Ativar' %></button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body></html>

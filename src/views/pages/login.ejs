@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Entrar — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+<style>body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}</style>
+</head>
+<body>
+<div class="form-card">
+  <h1 class="form-title">👋 Bem-vindo de volta</h1>
+  <p class="form-subtitle">Entre com seu usuário ou e-mail</p>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <form method="POST" action="/login">
+    <div class="form-group">
+      <label for="login">E-mail ou Usuário</label>
+      <input type="text" id="login" name="login" placeholder="seu@email.com ou username" required autofocus/>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required/>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">Entrar →</button>
+  </form>
+  <p class="text-center mt-4" style="color:var(--text-muted);font-size:.9rem">
+    Não tem conta? <a href="/register" style="color:var(--blue)">Crie uma aqui</a>
+  </p>
+</div>
+</body></html>

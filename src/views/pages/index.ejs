@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>QuizMaster — Plataforma de Quizzes</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    body{display:flex;align-items:center;justify-content:center;min-height:100vh}
+    .hero{max-width:900px;width:90%;text-align:center;padding:60px 40px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow)}
+    .badge-online{display:inline-block;padding:6px 16px;background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3);border-radius:999px;font-size:.8rem;margin-bottom:20px}
+    .hero h1{font-size:3.2rem;color:var(--blue-light);margin-bottom:14px;letter-spacing:-1px}
+    .hero>p{font-size:1.1rem;color:var(--text-muted);margin-bottom:36px}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:50px}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:40px}
+    .feat{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:20px;border-radius:var(--radius);text-align:left}
+    .feat h3{color:var(--blue-light);margin-bottom:8px;font-size:1rem}
+    .feat p{font-size:.88rem;color:var(--text-muted);margin:0}
+    footer{font-size:.82rem;color:var(--text-dim)}
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="badge-online">🚀 Plataforma Online</div>
+    <h1>🎯 QuizMaster</h1>
+    <p>Aprenda, desafie e evolua com quizzes educativos criados pela comunidade.</p>
+    <div class="hero-btns">
+      <a href="/register" class="btn btn-primary">✨ Criar Conta Grátis</a>
+      <a href="/login" class="btn btn-secondary">Já tenho conta</a>
+    </div>
+    <div class="features">
+      <div class="feat"><h3>📚 Aprendizado</h3><p>Explore quizzes organizados por temas e dificuldade.</p></div>
+      <div class="feat"><h3>✍️ Crie Quizzes</h3><p>Monte seus próprios desafios e compartilhe com a comunidade.</p></div>
+      <div class="feat"><h3>❤️ Favoritos</h3><p>Salve os quizzes que mais gosta para jogar depois.</p></div>
+      <div class="feat"><h3>⭐ Avaliações</h3><p>Avalie e comente os quizzes que você jogou.</p></div>
+    </div>
+    <footer>Desenvolvido com Node.js + Express + EJS &nbsp;•&nbsp; QuizMaster © 2026</footer>
+  </div>
+</body>
+</html>

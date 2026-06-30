@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title><%= title %> — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/feed">Explorar</a>
+      <a href="/quiz/criar">+ Criar Quiz</a>
+      <a href="/favoritos">❤️ Favoritos</a>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+  <div class="page-header flex-between">
+    <div>
+      <h1>📋 Questões do Quiz</h1>
+      <p>Gerencie as questões deste quiz</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <a href="/quiz/<%= quizId %>" class="btn btn-secondary btn-sm">← Voltar ao Quiz</a>
+      <a href="/quizzes/<%= quizId %>/questoes/nova" class="btn btn-primary btn-sm">+ Nova Questão</a>
+    </div>
+  </div>
+
+  <% if(questoes && questoes.length > 0){ %>
+  <div class="card-grid">
+    <% questoes.forEach((q, idx)=>{ %>
+    <div class="card">
+      <div class="card-title">Questão <%= idx + 1 %></div>
+      <div class="card-desc"><%= q.enunciado %></div>
+      <div class="card-meta mb-4">
+        <span class="badge badge-blue"><%= JSON.parse(q.alternativas).length %> alternativas</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="/questoes/<%= q.id %>" class="btn btn-secondary btn-sm">👁️ Ver</a>
+        <% if(user && user.id === q.autorId){ %>
+        <a href="/questoes/<%= q.id %>/editar" class="btn btn-secondary btn-sm">✏️ Editar</a>
+        <form method="POST" action="/questoes/<%= q.id %>/excluir" style="display:inline" onsubmit="return confirm('Excluir esta questão?');">
+          <button type="submit" class="btn btn-danger btn-sm">✕ Excluir</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <div class="empty-state">
+    <h2>Nenhuma questão cadastrada</h2>
+    <p>Comece adicionando a primeira questão deste quiz!</p>
+    <a href="/quizzes/<%= quizId %>/questoes/nova" class="btn btn-primary mt-4">+ Nova Questão</a>
+  </div>
+  <% } %>
+</div>
+</body></html>

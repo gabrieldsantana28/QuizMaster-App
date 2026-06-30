@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title><%= title %> — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <nav class="navbar">
+    <a href="/feed" class="navbar-brand">🎯 QuizMaster</a>
+    <div class="navbar-nav">
+      <a href="/feed">Explorar</a>
+      <a href="/quiz/criar">+ Criar Quiz</a>
+      <a href="/favoritos">❤️ Favoritos</a>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+  <% if(messages && messages.success && messages.success.length){ %><div class="alert alert-success">✅ <%= messages.success[0] %></div><% } %>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+
+  <div style="max-width:680px;margin:0 auto">
+    <a href="/quizzes/<%= questao.quizId %>/questoes" class="btn btn-secondary btn-sm mb-4">← Voltar às Questões</a>
+
+    <div class="card">
+      <h1 class="section-title">❓ <%= questao.enunciado %></h1>
+
+      <div id="alternativas-wrapper" style="display:flex;flex-direction:column;gap:10px;margin:18px 0">
+        <% JSON.parse(questao.alternativas).forEach((alt, idx)=>{ %>
+        <button type="button" class="btn btn-secondary alt-btn" data-idx="<%= idx %>" style="justify-content:flex-start;text-align:left">
+          <%= String.fromCharCode(65+idx) %>) <%= alt %>
+        </button>
+        <% }) %>
+      </div>
+
+      <div id="resultado" style="display:none" class="alert mt-4"></div>
+
+      <% if(user && user.id === questao.autorId){ %>
+      <div style="display:flex;gap:8px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+        <a href="/questoes/<%= questao.id %>/editar" class="btn btn-secondary btn-sm">✏️ Editar</a>
+        <form method="POST" action="/questoes/<%= questao.id %>/excluir" onsubmit="return confirm('Excluir esta questão?');">
+          <button type="submit" class="btn btn-danger btn-sm">✕ Excluir</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<script>
+  const questaoId = <%- JSON.stringify(questao.id) %>;
+  const botoes = document.querySelectorAll('.alt-btn');
+  const resultado = document.getElementById('resultado');
+
+  botoes.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      botoes.forEach(b => b.disabled = true);
+      const respostaIdx = Number(btn.dataset.idx);
+
+      try {
+        const res = await fetch(`/questoes/${questaoId}/responder`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ respostaIdx })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultado.className = 'alert alert-danger';
+          resultado.textContent = '⚠️ ' + (data.error || 'Erro ao verificar resposta.');
+          resultado.style.display = 'block';
+          botoes.forEach(b => b.disabled = false);
+          return;
+        }
+
+        botoes[data.alternativaCorreta].classList.add('btn-green');
+        if (!data.correta) {
+          btn.classList.add('btn-danger');
+        }
+
+        resultado.className = 'alert ' + (data.correta ? 'alert-success' : 'alert-danger');
+        resultado.textContent = data.correta
+          ? '✅ Resposta correta!'
+          : '❌ Resposta incorreta.' + (data.dica ? ' Dica: ' + data.dica : '');
+        resultado.style.display = 'block';
+      } catch (err) {
+        resultado.className = 'alert alert-danger';
+        resultado.textContent = '⚠️ Erro ao verificar resposta.';
+        resultado.style.display = 'block';
+        botoes.forEach(b => b.disabled = false);
+      }
+    });
+  });
+</script>
+</body></html>

@@ -1,0 +1,17 @@
+node_modules/
+.env
+
+# Build
+dist/
+build/
+
+# Testes / cobertura
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# SO / editor
+.DS_Store
+.vscode/

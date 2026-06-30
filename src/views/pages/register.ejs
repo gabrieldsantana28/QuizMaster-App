@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Criar Conta — QuizMaster</title><link rel="stylesheet" href="/stylesheets/style.css">
+<style>body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}</style>
+</head>
+<body>
+<div class="form-card">
+  <h1 class="form-title">✨ Criar Conta</h1>
+  <p class="form-subtitle">Junte-se à comunidade QuizMaster</p>
+  <% if(messages && messages.error && messages.error.length){ %><div class="alert alert-danger">⚠️ <%= messages.error[0] %></div><% } %>
+  <form method="POST" action="/register">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="fullName">Nome Completo</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Seu nome"/>
+      </div>
+      <div class="form-group">
+        <label for="username">Usuário *</label>
+        <input type="text" id="username" name="username" placeholder="username" required/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail *</label>
+      <input type="email" id="email" name="email" placeholder="seu@email.com" required/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="password">Senha * <small style="color:var(--text-dim)">(mín. 8 chars)</small></label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required/>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha *</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required/>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">Criar Conta →</button>
+  </form>
+  <p class="text-center mt-4" style="color:var(--text-muted);font-size:.9rem">
+    Já tem conta? <a href="/login" style="color:var(--blue)">Faça login</a>
+  </p>
+</div>
+</body></html>
